@@ -17,17 +17,39 @@ Replace this paragraph with your own summary of what your version does.
 
 ## How The System Works
 
-Explain your design in plain language.
+This recommender uses **content-based filtering**—it matches songs to a user's taste by comparing music "features" (what the song sounds like) to the user's stated preferences.
 
-Some prompts to answer:
+**What a Song contains:**
+Each song has 10 features: genre (pop, rock, etc.), mood (happy, chill, etc.), plus measurable audio attributes like energy (0-1 scale, how intense), danceability, acousticness, valence (how happy it sounds), and tempo. These features describe the *character* of the song independent of any particular user.
 
-- What features does each `Song` use in your system
-  - For example: genre, mood, energy, tempo
-- What information does your `UserProfile` store
-- How does your `Recommender` compute a score for each song
-- How do you choose which songs to recommend
+**What a UserProfile stores:**
+A user profile captures four key preferences: favorite genre, favorite mood, target energy level, and whether they like acoustic (natural) or electronic (produced) sounds. This is deliberately minimal—just enough to represent someone's basic taste without tracking their full listening history.
 
-You can include a simple diagram or bullet list if helpful.
+**Scoring Algorithm Recipe:**
+
+The system scores each song using a weighted point system:
+
+| Feature | Points | Logic |
+|---------|--------|-------|
+| Genre Match | +2.0 | Exact match only |
+| Mood Match | +1.0 | Exact match only |
+| Energy Similarity | 0–1.5 | `1.5 × (1 - abs(song_energy - user_energy))` |
+| Tempo Similarity | 0–0.5 | `0.5 × (1 - abs(song_bpm - user_bpm) / 200)` |
+| Valence Alignment | +0.3–0.5 | Bonus if musical positiveness matches mood intent |
+| Danceability Bonus | +0.3 | Applied for playful/energetic moods |
+
+**Maximum possible score:** ~5.8 points
+
+**How songs are chosen:**
+The recommender loops through all 18 songs in the catalog, scores each one, sorts by total score (descending), and returns the top-K recommendations. This ensures users see their best matches first.
+
+**Potential Biases & Limitations:**
+
+- **Genre Prioritization**: With 2.0 points for genre vs 1.0 for mood, the system may overlook a melancholic rock song for a sad indie fan. Genre dominates the score.
+- **Mood Rigidity**: The system only matches exact moods. A user asking for "energetic" won't get "playful" songs, even if they're musically similar.
+- **Energy as Proxy**: Continuous energy scores mask binary preferences (e.g., some users want *either* high-energy *or* low-energy, not in-between).
+- **Small Catalog Bias**: With only 18 songs, the system can't truly diversify and may always recommend the same top 5 songs across different user profiles.
+- **Feature Blindness**: The system ignores artist, lyrics, cultural context, and user listening history. Two songs with identical metadata but very different cultural significance score the same.
 
 ---
 
@@ -53,6 +75,12 @@ pip install -r requirements.txt
 ```bash
 python -m src.main
 ```
+
+### Example Output
+
+![Music Recommender Output](./Screenshot%202026-04-12%20at%204.28.59%20PM.png)
+
+The system scores all 18 songs, ranks them by match strength, and displays why each recommendation was chosen.
 
 ### Running Tests
 
