@@ -38,7 +38,30 @@ The system works exceptionally well for **lofi and pop fans** because these genr
 
 ## 7. Evaluation  
 
-I tested the system across 11 distinct user profiles: 5 standard personas (High-Energy Pop, Chill Lofi, Deep Intense Rock, Relaxed Jazz, Electronic Vibes) and 6 adversarial edge-case profiles (High-Energy Sad, Acoustic Metal, Extreme Low Energy, Rare Mood+Genre Combo, Happy Metal, Nonexistent Genre). Standard profiles received highly accurate, musically intuitive recommendations that matched my expectations. However, adversarial profiles exposed critical weaknesses: (1) rare-genre fans saw zero diversity, (2) conflicting mood+energy preferences were handled poorly by the algorithm, (3) users outside the high-energy mainstream were underserved. I also ran a weight-shift experiment (doubling energy importance to 3.0 points, halving genre to 1.0) which improved handling of conflicting preferences but sacrificed genre coherence, suggesting the original weights were well-balanced.
+I systematically tested VibeMatcher across **11 distinct user profiles** to validate whether the scoring logic produces accurate recommendations:
+
+**Standard Profiles (Expected to work well):**
+- High-Energy Pop, Chill Lofi, Deep Intense Rock, Relaxed Jazz, Electronic Vibes
+
+Result: ✅ **All 5 received musically coherent top recommendations** that matched my intuition. For example, the Chill Lofi fan received "Library Rain" (lofi + chill + 0.35 energy), which is a perfect match. The algorithm successfully prioritized genre and mood when both aligned with energy.
+
+**Adversarial/Edge-Case Profiles (Designed to expose weaknesses):**
+- High-Energy Sad (conflicting: sad mood + 0.95 energy)
+- Acoustic Metal (paradoxical: metal genre + acoustic preference)
+- Extreme Low Energy (conflicting: uplifting mood + 0.05 energy)
+- Rare Combo: Reggae Classical (unusual mood+genre pair)
+- Genre Mismatch: Happy Metal (contradictory semantically)
+- Nonexistent Genre: Dubstep (genre not in catalog)
+
+Result: ⚠️ **Exposed critical failure modes.** The "Extreme Low Energy" user requesting rock + uplifting + 0.05 energy received "Storm Runner" (rock, intense, high energy 0.91)—a terrible mismatch that ranked only because the +2.0 genre bonus outweighed the terrible energy fit. Similarly, "Acoustic Metal" user got "Iron Fury" (the only metal song), proving rare-genre fans have zero flexibility.
+
+**Most Surprising Finding: "Gym Hero" Problem**
+
+I discovered that "Gym Hero" (pop, intense, 0.93 energy) appeared in the top 5 recommendations for *three different standard profiles*: High-Energy Pop #2, Deep Intense Rock #2, and Electronic Vibes #2. This shocked me—why would a pop song rank high for a rock and electronic profile? The answer revealed a system weakness: **When users miss on exact genre matching, the algorithm defaults to energy similarity.** Since Gym Hero has very high energy (0.93), it ranks high for *any* high-energy user, even if genre completely mismatches. This creates an unintended "energy magnet" effect where a few high-energy songs dominate fallback recommendations regardless of genre, reducing apparent diversity to users.
+
+**Weight-Shift Experiment:**
+
+I tested an experimental model that doubled energy importance (3.0 max) and halved genre importance (1.0). This improved handling of conflicting preferences (e.g., the Extreme Low Energy user now got a better energy match) but sacrificed genre coherence—sometimes recommending wildly different genres just to match energy. This experiment confirmed that the **original weights (genre=2.0, energy=1.5) were well-balanced**: reducing genre importance enough to fix the extreme cases would break the normal case where users want genre coherence.
 
 ---
 
