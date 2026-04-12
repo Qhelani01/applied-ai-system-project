@@ -78,7 +78,7 @@ python -m src.main
 
 ### Example Output
 
-![Music Recommender Output](./Screenshot%202026-04-12%20at%204.28.59%20PM.png)
+![Music Recommender Output](./example_output.png)
 
 The system scores all 18 songs, ranks them by match strength, and displays why each recommendation was chosen.
 
