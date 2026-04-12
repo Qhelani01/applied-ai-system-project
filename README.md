@@ -82,6 +82,12 @@ python -m src.main
 
 The system scores all 18 songs, ranks them by match strength, and displays why each recommendation was chosen.
 
+### Stress Testing: Adversarial Profiles
+
+![Adversarial Profile Testing](./screenshot2.png)
+
+The recommender is tested against challenging, edge-case user profiles (e.g., high-energy + sad mood, metal + acoustic) to expose potential biases and weaknesses in the algorithm.
+
 ### Running Tests
 
 Run the starter tests with:
