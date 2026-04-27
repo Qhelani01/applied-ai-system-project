@@ -103,9 +103,10 @@ def main() -> None:
         recommendations = recommend_songs(user_prefs, songs, k=5)
 
         for i, rec in enumerate(recommendations, start=1):
-            song, score, explanation = rec
+            song, score, explanation, confidence = rec
+            confidence_pct = int(confidence * 100)
             print(f"  {i}. {song['title']} by {song['artist']}")
-            print(f"     Score: {score:.2f}/5.8 | {explanation}")
+            print(f"     Score: {score:.2f}/5.8 | Confidence: {confidence_pct}% | {explanation}")
         print()
 
     # Test adversarial/edge-case profiles
@@ -121,9 +122,10 @@ def main() -> None:
         recommendations = recommend_songs(user_prefs, songs, k=5)
 
         for i, rec in enumerate(recommendations, start=1):
-            song, score, explanation = rec
+            song, score, explanation, confidence = rec
+            confidence_pct = int(confidence * 100)
             print(f"  {i}. {song['title']} by {song['artist']}")
-            print(f"     Score: {score:.2f}/5.8 | {explanation}")
+            print(f"     Score: {score:.2f}/5.8 | Confidence: {confidence_pct}% | {explanation}")
         print()
 
 
