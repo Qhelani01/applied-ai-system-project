@@ -16,7 +16,14 @@ The core insight: A +2.0 point genre bonus seems reasonable on paper—until you
 
 ## Video Walkthrough
 
-[![Video Walkthrough](https://cdn.loom.com/sessions/thumbnails/044cbd0280304f1193041ba289eeb5c5-with-play.gif)](https://www.loom.com/share/044cbd0280304f1193041ba289eeb5c5)
+<div>
+    <a href="https://www.loom.com/share/044cbd0280304f1193041ba289eeb5c5">
+      <p>VibeMatcher - 26 April 2026 - Watch Video</p>
+    </a>
+    <a href="https://www.loom.com/share/044cbd0280304f1193041ba289eeb5c5">
+      <img style="max-width:300px;" src="https://cdn.loom.com/sessions/thumbnails/044cbd0280304f1193041ba289eeb5c5-d86059151c03d68d-full-play.gif#t=0.1">
+    </a>
+  </div>
 
 ---
 
