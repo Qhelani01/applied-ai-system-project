@@ -14,6 +14,12 @@ The core insight: A +2.0 point genre bonus seems reasonable on paper—until you
 
 ---
 
+## Video Walkthrough
+
+<div style="position: relative; padding-bottom: 64.93975903614458%; height: 0;"><iframe src="https://www.loom.com/embed/044cbd0280304f1193041ba289eeb5c5" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe></div>
+
+---
+
 ## Table of Contents
 
 1. [Why This Matters](#why-this-matters)
